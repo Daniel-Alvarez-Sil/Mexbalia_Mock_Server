@@ -86,7 +86,7 @@ def ventas_por_producto_view(request, producto_id):
         return Response({})
 
     serializer = VentaSerializer(ventas, many=True)
-    return Response(serializer.data)
+    return Response({'ventas': serializer.data})
 
 
 @api_view(['GET'])
