@@ -82,6 +82,9 @@ def ventas_por_producto_view(request, producto_id):
     ventas = Venta.objects.filter(
         detalles__producto_id=producto_id,
     ).distinct().order_by('-fecha')
+    if not ventas.exists():
+        return Response({})
+
     serializer = VentaSerializer(ventas, many=True)
     return Response(serializer.data)
 
