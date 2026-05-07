@@ -31,6 +31,20 @@ def productos_view(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(['GET'])
+def producto_detalle_view(request, producto_id):
+    try:
+        producto = Producto.objects.get(id=producto_id)
+    except Producto.DoesNotExist:
+        return Response(
+            {'error': 'Producto no encontrado'},
+            status=status.HTTP_404_NOT_FOUND,
+        )
+
+    serializer = ProductoSerializer(producto)
+    return Response(serializer.data)
+
+
 @api_view(['GET', 'POST'])
 def clientes_view(request):
     if request.method == 'GET':
@@ -51,6 +65,23 @@ def clientes_view(request):
 @api_view(['GET'])
 def ventas_view(request):
     ventas = Venta.objects.all().order_by('-fecha')
+    serializer = VentaSerializer(ventas, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def ventas_por_producto_view(request, producto_id):
+    try:
+        Producto.objects.get(id=producto_id)
+    except Producto.DoesNotExist:
+        return Response(
+            {'error': 'Producto no encontrado'},
+            status=status.HTTP_404_NOT_FOUND,
+        )
+
+    ventas = Venta.objects.filter(
+        detalles__producto_id=producto_id,
+    ).distinct().order_by('-fecha')
     serializer = VentaSerializer(ventas, many=True)
     return Response(serializer.data)
 

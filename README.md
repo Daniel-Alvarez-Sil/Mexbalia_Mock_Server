@@ -43,6 +43,13 @@ pip install -r requirements.txt
 python manage.py migrate
 ```
 
+Al ejecutar las migraciones se crea informacion mock inicial:
+
+- 5 productos activos con stock.
+- 3 clientes.
+- 3 ventas con detalles.
+- Descuento automatico del stock usado en las ventas mock.
+
 ## Crear superusuario opcional
 
 Este paso solo es necesario si se quiere entrar al panel de administración de Django.
@@ -81,6 +88,8 @@ http://127.0.0.1:8000/api/
 |---|---|---|
 | GET | `/api/productos/` | Lista productos |
 | POST | `/api/productos/` | Crea producto |
+| GET | `/api/productos/<id>/` | Consulta un producto por id |
+| GET | `/api/productos/<id>/ventas/` | Lista ventas que incluyen un producto |
 | GET | `/api/clientes/` | Lista clientes |
 | POST | `/api/clientes/` | Crea cliente |
 | GET | `/api/ventas/` | Lista ventas |
@@ -107,6 +116,12 @@ curl -X POST http://127.0.0.1:8000/api/productos/ \
     "stock": 10,
     "activo": true
   }'
+```
+
+### Consultar producto por id
+
+```bash
+curl http://127.0.0.1:8000/api/productos/1/
 ```
 
 ### Listar clientes
@@ -179,6 +194,14 @@ curl http://127.0.0.1:8000/api/ventas/
 curl http://127.0.0.1:8000/api/ventas/1/
 ```
 
+### Listar ventas de un producto
+
+```bash
+curl http://127.0.0.1:8000/api/productos/1/ventas/
+```
+
+La respuesta contiene todas las ventas donde aparece el producto indicado, incluyendo los detalles de cada venta.
+
 ## Consumir APIs con Postman o Insomnia
 
 1. Ejecutar el servidor con `python manage.py runserver`.
@@ -198,6 +221,26 @@ Al crear una venta, el backend valida:
 - Que la venta se registre dentro de una transacción.
 - Que el stock se descuente automáticamente.
 - Que el total y subtotales se calculen automáticamente.
+
+## Informacion mock inicial
+
+La migracion `ventas/migrations/0002_mock_data.py` crea datos de ejemplo despues de crear las tablas principales.
+
+Productos incluidos:
+
+- Laptop Lenovo ThinkPad
+- Monitor Dell 24
+- Teclado Mecanico Logitech
+- Mouse Inalambrico Microsoft
+- Impresora HP LaserJet
+
+Clientes incluidos:
+
+- Juan Perez
+- Maria Gomez
+- Carlos Hernandez
+
+Estos datos permiten consumir los endpoints inmediatamente despues de ejecutar `python manage.py migrate`.
 
 ## Estructura principal
 
