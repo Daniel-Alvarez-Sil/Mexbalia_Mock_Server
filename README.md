@@ -92,6 +92,7 @@ http://127.0.0.1:8000/api/
 | GET | `/api/productos/<id>/ventas/` | Lista ventas que incluyen un producto |
 | GET | `/api/clientes/` | Lista clientes |
 | POST | `/api/clientes/` | Crea cliente |
+| GET | `/api/clientes/<id>/` | Consulta un cliente por id |
 | GET | `/api/ventas/` | Lista ventas |
 | GET | `/api/ventas/<id>/` | Consulta el detalle de una venta |
 | POST | `/api/ventas/crear/` | Registra una venta |
@@ -128,6 +129,12 @@ curl http://127.0.0.1:8000/api/productos/1/
 
 ```bash
 curl http://127.0.0.1:8000/api/clientes/
+```
+
+### Consultar cliente por id
+
+```bash
+curl http://127.0.0.1:8000/api/clientes/1/
 ```
 
 ### Crear cliente

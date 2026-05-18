@@ -63,6 +63,20 @@ def clientes_view(request):
 
 
 @api_view(['GET'])
+def cliente_detalle_view(request, cliente_id):
+    try:
+        cliente = Cliente.objects.get(id=cliente_id)
+    except Cliente.DoesNotExist:
+        return Response(
+            {'error': 'Cliente no encontrado'},
+            status=status.HTTP_404_NOT_FOUND,
+        )
+
+    serializer = ClienteSerializer(cliente)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
 def ventas_view(request):
     ventas = Venta.objects.all().order_by('-fecha')
     serializer = VentaSerializer(ventas, many=True)
