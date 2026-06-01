@@ -15,6 +15,27 @@ from .serializers import (
 
 
 @api_view(['GET', 'POST'])
+def oauth_simulation_view(request):
+    authorization_header = request.headers.get('Authorization', '')
+    scheme, _, token = authorization_header.partition(' ')
+
+    if scheme != 'Bearer' or not token.strip():
+        return Response(
+            {
+                'error': 'Se requiere un token Bearer no vacio en el encabezado Authorization',
+            },
+            status=status.HTTP_401_UNAUTHORIZED,
+        )
+
+    return Response(
+        {
+            'valid': True,
+            'message': 'Token Bearer recibido',
+        },
+    )
+
+
+@api_view(['GET', 'POST'])
 def productos_view(request):
     if request.method == 'GET':
         productos = Producto.objects.all().order_by('id')

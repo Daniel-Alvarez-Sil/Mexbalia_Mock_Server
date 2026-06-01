@@ -86,6 +86,7 @@ http://127.0.0.1:8000/api/
 
 | Método | Endpoint | Descripción |
 |---|---|---|
+| GET/POST | `/api/oAuth-simulation/` | Valida que exista un token Bearer no vacio en el encabezado `Authorization` |
 | GET | `/api/productos/` | Lista productos |
 | POST | `/api/productos/` | Crea producto |
 | GET | `/api/productos/<id>/` | Consulta un producto por id |
@@ -98,6 +99,22 @@ http://127.0.0.1:8000/api/
 | POST | `/api/ventas/crear/` | Registra una venta |
 
 ## Consumir APIs con curl
+
+### Simular validacion OAuth
+
+```bash
+curl http://127.0.0.1:8000/api/oAuth-simulation/ \
+  -H "Authorization: Bearer token-de-prueba"
+```
+
+Respuesta esperada:
+
+```json
+{
+  "valid": true,
+  "message": "Token Bearer recibido"
+}
+```
 
 ### Listar productos
 

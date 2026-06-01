@@ -4,6 +4,7 @@ from .views import (
     cliente_detalle_view,
     clientes_view,
     crear_venta_view,
+    oauth_simulation_view,
     producto_detalle_view,
     productos_view,
     venta_detalle_view,
@@ -13,6 +14,7 @@ from .views import (
 
 
 urlpatterns = [
+    path('oAuth-simulation/', oauth_simulation_view, name='oauth_simulation'),
     path('productos/', productos_view, name='productos'),
     path('productos/<int:producto_id>/', producto_detalle_view, name='producto_detalle'),
     path(
